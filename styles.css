@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 
 :root {
-  --bg-color: aliceblue;
-  --tooltip-bg: rgb(203, 238, 255);
+  --bg-color: rgb(32, 101, 161);
+  --tooltip-bg: rgb(109, 185, 223);
   --color: rgb(31, 31, 31);
   --opacity: 0.5;
   --stroke: black;
@@ -22,7 +22,8 @@ html {
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 600;
   background-color: var(--bg-color);
   min-height: 100vh;
   min-height: -webkit-fill-available;
@@ -56,3 +57,6 @@ a:active {
   padding-bottom: 1rem;
 }
 
+.svg-container {
+    width: 100%;
+}
