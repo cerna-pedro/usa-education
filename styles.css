@@ -2,10 +2,11 @@
 
 :root {
   --bg-color: rgb(61, 61, 61);
-  --tooltip-bg: rgb(255, 255, 255);
+  --tooltip-bg: rgb(12, 50, 61);
   --color: rgb(223, 223, 223);
   --opacity: 0.5;
-  --stroke: black;
+  --state-stroke: black;
+  --county-stroke: gray;
 }
 
 * {
@@ -67,6 +68,23 @@ a:active {
 
 .svg-container {
   width: 100%;
+  background-color: white;
+}
+
+.state {
+  stroke: var(--state-stroke);
+  stroke-width: .05rem;
+  pointer-events: none;
+  fill: none;
+}
+
+.county{
+  stroke: var(--county-stroke);
+  stroke-width: .02rem;
+}
+
+.county:hover{
+  fill: #f00075;
 }
 
 /* #axis-label {
