@@ -8,35 +8,48 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Monthly Global Land-Surface Temperature</title>
+    <title>USA Educational Attainment</title>
   </head>
   <body>
     <div class="content">
       <div id="title">
-        <h1>Monthly Global Land-Surface Temperature</h1>
-        <h2>1753 to 2015</h2>
-        <h3>Base Temperature of 8.66°C</h3>
+        <h1>United States Educational Attainment</h1>
+        <h3>
+          Percentage of Adults Age 25 and Older with a Bachelor's Degree or
+          Higher 🎓
+        </h3>
+        <h4>2010 to 2014</h4>
       </div>
       <div id="description">
         <p>
-          Heat map was created with
+          Choropleth map was created with
           <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer"
             >D3.js</a
           >
         </p>
         <p>
-          <a
-            href="https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Data</a
-          >
-          provided by
+          Data provided by
           <a
             href="https://www.freecodecamp.org/"
             target="_blank"
             rel="noopener noreferrer"
             >freeCodeCamp</a
+          >
+        </p>
+        <p>
+          <a
+            href="https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json"
+            target="_blank"
+            rel="noopener noreferrer"
+            >US Education Data</a
+          >
+        </p>
+        <p>
+          <a
+            href="https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json"
+            target="_blank"
+            rel="noopener noreferrer"
+            >US County Data</a
           >
         </p>
       </div>
@@ -52,6 +65,7 @@
         >Pedro Cerna</a
       >
     </footer>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="index.js"></script>
   </body>
