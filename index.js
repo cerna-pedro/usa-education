@@ -17,9 +17,9 @@ const createMap = async () => {
   countyData = counties.features.map((county) => {
     const educationForThisCounty = educationData.find(
       (x) => x.fips === county.id
-    );
-    return { ...county, education: educationForThisCounty };
-  });
+      );
+      return { ...county, education: educationForThisCounty };
+    });
   const extentOfEducation = d3.extent(
     countyData.map((entry) => entry.education.bachelorsOrHigher)
   );
@@ -79,7 +79,7 @@ const createMap = async () => {
     .attr('d', pathGenerator)
     .attr('data-fips', (d) => d.education.fips)
     .attr('data-education', (d) => d.education.bachelorsOrHigher)
-    .attr('data-areaName', (d) => d.education.area_name)
+    .attr('data-area', (d) => d.education.area_name)
     .attr('data-state', (d) => d.education.state)
     .attr('fill', (d) => colorScale(d.education.bachelorsOrHigher))
     .on(
@@ -90,7 +90,7 @@ const createMap = async () => {
         tooltip
           .html(
             `
-      <p>${e.target.dataset.areaName}, ${e.target.dataset.state}: ${e.target.dataset.education}%</p>
+      <p>${e.target.dataset.area}, ${e.target.dataset.state}: ${e.target.dataset.education}%</p>
           `
           )
           .style('position', 'absolute')
