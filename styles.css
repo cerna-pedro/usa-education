@@ -12,7 +12,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   color: var(--color);
   font-family: inherit;
 }
@@ -27,8 +28,13 @@ body {
   background-color: var(--bg-color);
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   text-align: center;
 }
 
@@ -38,17 +44,35 @@ a:active {
 }
 
 .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 #tooltip {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   pointer-events: none;
   font-size: 0.8rem;
   background-color: var(--tooltip-bg);
@@ -73,42 +97,25 @@ a:active {
 
 .state {
   stroke: var(--state-stroke);
-  stroke-width: .05rem;
+  stroke-width: .015rem;
   pointer-events: none;
   fill: none;
 }
 
 .county{
   stroke: var(--county-stroke);
-  stroke-width: .02rem;
+  stroke-width: .005rem;
 }
 
 .county:hover{
   fill: #f00075;
 }
 
-/* #axis-label {
-  fill: var(--color);
-  font-size: 1.6rem;
+#legend-background{
+  opacity: 0.75;
 }
 
-#legend text {
+#legend-text {
   text-anchor: middle;
   font-size: 0.75rem;
 }
-
-#legend-title {
-  text-anchor: start !important;
-  font-size: 1rem !important;
-}
-
-@media (max-width: 450px) {
-  #legend text {
-    font-size: 0.5rem;
-  }
-}
-@media (max-width: 350px) {
-  #legend text {
-    font-size: 0.45rem;
-  }
-} */

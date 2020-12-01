@@ -1,5 +1,6 @@
-const educationURL = `https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json`;
+'use strict';
 
+const educationURL = `https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json`;
 const countyURL = `https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json`;
 
 const pullData = async (url) => {
@@ -12,26 +13,16 @@ const createMap = async () => {
   const educationData = await pullData(educationURL);
   let countyData = await pullData(countyURL);
   const counties = topojson.feature(countyData, countyData.objects.counties);
-  const states = topojson.mesh(
-    countyData,
-    countyData.objects.states,
-    (a, b) => a !== b
-  );
+  const states = topojson.mesh(countyData, countyData.objects.states);
   countyData = counties.features.map((county) => {
     const educationForThisCounty = educationData.find(
       (x) => x.fips === county.id
     );
-    return {
-      ...county,
-      education: educationForThisCounty,
-    };
+    return { ...county, education: educationForThisCounty };
   });
-  console.log(countyData);
   const extentOfEducation = d3.extent(
     countyData.map((entry) => entry.education.bachelorsOrHigher)
   );
-  console.log(extentOfEducation);
-
   const margin = {
     top: 50,
     left: 50,
@@ -53,15 +44,12 @@ const createMap = async () => {
     .append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', 'none');
-
   const g = svg.append('g');
-
   svg.call(
     d3.zoom().on('zoom', (e) => {
       g.attr('transform', e.transform);
     })
   );
-
   const projection = d3.geoIdentity().fitExtent(
     [
       [margin.left, 0],
@@ -70,12 +58,18 @@ const createMap = async () => {
     counties
   );
   const pathGenerator = d3.geoPath().projection(projection);
-
+  const minEducation = d3.min(extentOfEducation);
+  const maxEducation = d3.max(extentOfEducation);
+  let colorDomain = d3.range(
+    minEducation,
+    maxEducation,
+    (maxEducation - minEducation) / 8
+  );
+  colorDomain = colorDomain.map((num) => Math.floor(num));
   const colorScale = d3
-    .scaleSequential()
-    .interpolator(d3.interpolateBlues)
-    .domain(extentOfEducation);
-
+    .scaleThreshold()
+    .domain(colorDomain)
+    .range(d3.schemeBlues[9]);
   g.append('g')
     .selectAll('path')
     .data(countyData)
@@ -110,8 +104,61 @@ const createMap = async () => {
         tooltip.transition().duration(500).style('opacity', 0);
       }
     );
-
   g.append('path').attr('class', 'state').attr('d', pathGenerator(states));
+  const sqSize =
+    (width - margin.left - margin.right) / colorScale.domain().length > 40
+      ? 40
+      : (width - margin.left - margin.right) / colorScale.domain().length;
+  const offset = 5;
+  const legend = svg
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`)
+    .attr('id', 'legend');
+  legend
+    .append('rect')
+    .attr('id', 'legend-background')
+    .attr('x', -sqSize / 2)
+    .attr('y', -sqSize)
+    .attr('width', colorScale.domain().length * sqSize + sqSize)
+    .attr('height', 3 * sqSize)
+    .attr('rx', sqSize / 4)
+    .attr('fill', 'white');
+  legend.append('text').text('LEGEND');
+  legend
+    .selectAll(null)
+    .data(colorScale.domain())
+    .enter()
+    .append('rect')
+    .attr('id', 'legend-symbol')
+    .attr('x', (d, i) => i * sqSize)
+    .attr('y', offset)
+    .attr('width', sqSize)
+    .attr('height', sqSize)
+    .attr('fill', (d) => colorScale(d));
+  legend
+    .selectAll(null)
+    .data(colorScale.domain())
+    .enter()
+    .append('text')
+    .text((d) => `${d}%`)
+    .attr('id', 'legend-text')
+    .attr('x', (d, i) => i * sqSize)
+    .attr('y', (d, i) => 2 * offset + sqSize)
+    .attr('alignment-baseline', 'hanging');
+  legend
+    .selectAll(null)
+    .data(colorScale.domain())
+    .enter()
+    .append('path')
+    .attr(
+      'd',
+      (d, i) =>
+        `M ${i * sqSize} ${offset} L ${i * sqSize} ${sqSize + offset * 1.5}`
+    )
+    .attr('stroke', 'black')
+    .attr('id', 'legend-strokes')
+    .attr('x', (d, i) => i * sqSize)
+    .attr('y', (d, i) => 2 * offset + sqSize);
 };
 
 createMap();
